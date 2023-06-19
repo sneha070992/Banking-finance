@@ -1,12 +1,12 @@
 resource "aws_instance" "Finance-Deploy" {
   ami           = "ami-0c768662cc797cd75" 
   instance_type = "t2.micro" 
-  key_name = "harshit1"
+  key_name = "sneha1"
   vpc_security_group_ids= ["sg-04184ed14f82d47b7"]
   connection {
     type     = "ssh"
     user     = "ec2-user"
-    private_key = file("./harshit1.pem")
+    private_key = file("./sneha1.pem")
     host     = self.public_ip
   }
   provisioner "remote-exec" {

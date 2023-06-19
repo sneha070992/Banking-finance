@@ -13,7 +13,7 @@ resource "aws_instance" "Finance-Deploy" {
     inline = [ "echo 'wait to start instance' "]
   }
   tags = {
-    Name = "Finance Deploy"
+    Name = "Finance-Deploy"
   }
   provisioner "local-exec" {
         command = " echo ${aws_instance.Finance-Deploy.public_ip} > inventory "

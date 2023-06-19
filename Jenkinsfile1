@@ -14,7 +14,7 @@ pipeline {
         sh 'mvn clean package'
             }
     }    
-    stage('Publish Reports using HTML') {
+    stage('Publishing Reports using HTML') {
       steps {
         echo 'Publishing HTML Reports'
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Finance Project', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])

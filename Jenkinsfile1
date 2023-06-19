@@ -5,7 +5,7 @@ pipeline {
     stage('CheckOut') {
       steps {
         echo 'Checkout the source code from GitHub'
-        git 'https://github.com/Harshit-reddy-1998/Banking-finance'
+        git 'https://github.com/sneha070992/Banking-finance.git'
             }
     }
      stage('Build and Package Application') {
@@ -22,7 +22,7 @@ pipeline {
     }        
     stage('Image Creation') {
     steps {
-      sh 'docker build -t harshitreddy/finance-project:latest .'
+      sh 'docker build -t snehanka/finance-project:latest .'
           }
     }   
     stage('Docker Login') {
@@ -34,13 +34,13 @@ pipeline {
     }     
     stage('Push Image to Docker Registory') {
       steps {
-        sh 'docker push harshitreddy/finance-project:latest'
+        sh 'docker push snehanka/finance-project:latest'
             }
     }
    stage ('Configure Test-server with Terraform'){
             steps {
                 dir('deployments'){
-                sh 'sudo chmod 600 harshit1.pem'
+                sh 'sudo chmod 600 sneha1.pem'
                 sh 'terraform init'
                 sh 'terraform validate'
                 sh 'terraform apply --auto-approve'

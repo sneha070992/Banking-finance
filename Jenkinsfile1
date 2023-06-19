@@ -1,0 +1,53 @@
+pipeline {
+  agent any
+  
+  stages {
+    stage('CheckOut') {
+      steps {
+        echo 'Checkout the source code from GitHub'
+        git 'https://github.com/Harshit-reddy-1998/Banking-finance'
+            }
+    }
+     stage('Build and Package Application') {
+      steps {
+        echo 'Build and Package App'
+        sh 'mvn clean package'
+            }
+    }    
+    stage('Publish Reports using HTML') {
+      steps {
+        echo 'Publishing HTML Reports'
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Finance Project', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            }
+    }        
+    stage('Image Creation') {
+    steps {
+      sh 'docker build -t harshitreddy/finance-project:latest .'
+          }
+    }   
+    stage('Docker Login') {
+      steps {
+         withCredentials([usernamePassword(credentialsId: 'Docker-Login', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+         sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    }
+            }
+    }     
+    stage('Push Image to Docker Registory') {
+      steps {
+        sh 'docker push harshitreddy/finance-project:latest'
+            }
+    }
+   stage ('Configure Test-server with Terraform'){
+            steps {
+                dir('deployments'){
+                sh 'sudo chmod 600 harshit1.pem'
+                sh 'terraform init'
+                sh 'terraform validate'
+                sh 'terraform apply --auto-approve'
+                }
+             
+       }
+}
+ 
+}    
+}

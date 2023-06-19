@@ -1,0 +1,17 @@
+---
+- name : Configure Docker on node Instance
+  hosts : all
+  become: yes
+  connection : ssh
+  tasks : 
+  - name: Updating yum
+    command : yum update
+
+  - name : Install Docker
+    command : yum install docker -y
+
+  - name : Start Docker Service
+    command : sudo systemctl start docker
+
+  - name : Run the Bank application  
+    command: sudo docker run -itd -p 8081:8081 harshitreddy/finance-project:latest
